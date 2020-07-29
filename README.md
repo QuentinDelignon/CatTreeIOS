@@ -9,5 +9,11 @@ This App relies on several bricks, I hereby thanks :\
 ## Content
 The app is separated in 5 tabs. All tabs can be seen in the following pictures:\
 
+<img src="https://github.com/QuentinDelignon/CatTreeIOS/blob/media/home.PNG" width="150" ><img src="https://github.com/QuentinDelignon/CatTreeIOS/blob/media/shop.PNG" width="150" >
+<img src="https://github.com/QuentinDelignon/CatTreeIOS/blob/media/stats.PNG" width="150" >
+<img src="https://github.com/QuentinDelignon/CatTreeIOS/blob/media/achievements.PNG" width="150" >
+<img src="https://github.com/QuentinDelignon/CatTreeIOS/blob/media/tree.PNG" width="150" >
+
+
 ## Things you must know
 This app has been developped for large screen Iphones. If you want to use for another phone, please use constraints in the MainStoryBoard to make it adapted to your screen.
