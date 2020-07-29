@@ -7,7 +7,7 @@ This App relies on several bricks, I hereby thanks :\
 **Microsoft and the Xamarin.IOS Team** for their incredible work on this wonderful piece of software.\
 **MicroChart Team** for their easy to use and so useful library that i used for plotting nice data.
 ## Content
-The app is separated in 5 tabs. All tabs can be seen in the following pictures:\
+The app is separated in 5 tabs. All tabs can be seen in the following pictures:  
 
 <img src="https://github.com/QuentinDelignon/CatTreeIOS/blob/media/home.PNG" width="150" ><img src="https://github.com/QuentinDelignon/CatTreeIOS/blob/media/shop.PNG" width="150" ><img src="https://github.com/QuentinDelignon/CatTreeIOS/blob/media/stats.PNG" width="150" ><img src="https://github.com/QuentinDelignon/CatTreeIOS/blob/media/achievements.PNG" width="150" ><img src="https://github.com/QuentinDelignon/CatTreeIOS/blob/media/tree.PNG" width="150" >
 
