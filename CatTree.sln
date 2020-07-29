@@ -1,0 +1,35 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30225.117
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CatTree", "CatTree\CatTree.csproj", "{02B094D0-8A66-4FFC-87CF-F6B9B650F0A7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|iPhone = Debug|iPhone
+		Debug|iPhoneSimulator = Debug|iPhoneSimulator
+		Release|iPhone = Release|iPhone
+		Release|iPhoneSimulator = Release|iPhoneSimulator
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{02B094D0-8A66-4FFC-87CF-F6B9B650F0A7}.Debug|iPhone.ActiveCfg = Release|iPhone
+		{02B094D0-8A66-4FFC-87CF-F6B9B650F0A7}.Debug|iPhone.Build.0 = Release|iPhone
+		{02B094D0-8A66-4FFC-87CF-F6B9B650F0A7}.Debug|iPhone.Deploy.0 = Release|iPhone
+		{02B094D0-8A66-4FFC-87CF-F6B9B650F0A7}.Debug|iPhoneSimulator.ActiveCfg = Debug|iPhoneSimulator
+		{02B094D0-8A66-4FFC-87CF-F6B9B650F0A7}.Debug|iPhoneSimulator.Build.0 = Debug|iPhoneSimulator
+		{02B094D0-8A66-4FFC-87CF-F6B9B650F0A7}.Debug|iPhoneSimulator.Deploy.0 = Debug|iPhoneSimulator
+		{02B094D0-8A66-4FFC-87CF-F6B9B650F0A7}.Release|iPhone.ActiveCfg = Release|iPhone
+		{02B094D0-8A66-4FFC-87CF-F6B9B650F0A7}.Release|iPhone.Build.0 = Release|iPhone
+		{02B094D0-8A66-4FFC-87CF-F6B9B650F0A7}.Release|iPhone.Deploy.0 = Release|iPhone
+		{02B094D0-8A66-4FFC-87CF-F6B9B650F0A7}.Release|iPhoneSimulator.ActiveCfg = Release|iPhoneSimulator
+		{02B094D0-8A66-4FFC-87CF-F6B9B650F0A7}.Release|iPhoneSimulator.Build.0 = Release|iPhoneSimulator
+		{02B094D0-8A66-4FFC-87CF-F6B9B650F0A7}.Release|iPhoneSimulator.Deploy.0 = Release|iPhoneSimulator
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {11BDB9E1-C13A-4291-9413-1B4424493182}
+	EndGlobalSection
+EndGlobal

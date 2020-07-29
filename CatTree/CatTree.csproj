@@ -1,0 +1,665 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">iPhoneSimulator</Platform>
+    <ProjectGuid>{02B094D0-8A66-4FFC-87CF-F6B9B650F0A7}</ProjectGuid>
+    <ProjectTypeGuids>{FEACFBD2-3405-455C-9665-78FE426C6842};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <TemplateGuid>{edc1b0fa-90cd-4038-8fad-98fe74adb368}</TemplateGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>CatTree</RootNamespace>
+    <AssemblyName>CatTree</AssemblyName>
+    <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
+    <MtouchEnableSGenConc>true</MtouchEnableSGenConc>
+    <MtouchHttpClientHandler>NSUrlSessionHandler</MtouchHttpClientHandler>
+    <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
+    <ProvisioningType>manual</ProvisioningType>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\iPhoneSimulator\Debug</OutputPath>
+    <DefineConstants>DEBUG</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <MtouchArch>x86_64</MtouchArch>
+    <MtouchLink>Full</MtouchLink>
+    <MtouchDebug>true</MtouchDebug>
+    <OptimizePNGs>false</OptimizePNGs>
+    <CodesignKey>iPhone Developer</CodesignKey>
+    <MtouchFastDev>false</MtouchFastDev>
+    <MtouchSdkVersion>13.5</MtouchSdkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\iPhoneSimulator\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <MtouchLink>None</MtouchLink>
+    <MtouchArch>x86_64</MtouchArch>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhone' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\iPhone\Debug</OutputPath>
+    <DefineConstants>DEBUG</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <MtouchArch>ARM64</MtouchArch>
+    <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
+    <CodesignKey>iPhone Developer</CodesignKey>
+    <MtouchDebug>true</MtouchDebug>
+    <BuildIpa>false</BuildIpa>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\iPhone\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
+    <MtouchArch>ARM64</MtouchArch>
+    <CodesignKey>iPhone Developer</CodesignKey>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(RunConfiguration)' == 'Default' ">
+    <AppExtensionDebugBundleId />
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="MonoTouch.Dialog-1" />
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="Xamarin.iOS" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microcharts">
+      <Version>0.9.0</Version>
+    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>12.0.3</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Essentials" Version="1.5.3.2" />
+  </ItemGroup>
+  <ItemGroup>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\120.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\1201.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\180.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\29.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\40.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\401.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\402.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\58.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\581.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\60.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\80.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\801.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\87.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\appstore.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon167.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon152.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon76.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon20.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\time.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <InterfaceDefinition Include="LaunchScreen.storyboard" />
+    <InterfaceDefinition Include="Main.storyboard" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Info.plist" />
+    <None Include="Entitlements.plist" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AchievedCell.cs" />
+    <Compile Include="AchievedCell.designer.cs">
+      <DependentUpon>AchievedCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AchievedSource.cs" />
+    <Compile Include="AchievementCell.cs" />
+    <Compile Include="AchievementCell.designer.cs">
+      <DependentUpon>AchievementCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AchievmentController.cs" />
+    <Compile Include="AchievmentController.designer.cs">
+      <DependentUpon>AchievmentController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AchievementItem.cs" />
+    <Compile Include="AppData.cs" />
+    <Compile Include="SceneDelegate.cs" />
+    <Compile Include="SelectCollectionVIew.cs" />
+    <Compile Include="SelectCollectionVIew.designer.cs">
+      <DependentUpon>SelectCollectionVIew.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SelectDelegate.cs" />
+    <Compile Include="Header.cs" />
+    <Compile Include="Header.designer.cs">
+      <DependentUpon>Header.cs</DependentUpon>
+    </Compile>
+    <Compile Include="myHeader.cs" />
+    <Compile Include="myHeader.designer.cs">
+      <DependentUpon>myHeader.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SelectCell.cs" />
+    <Compile Include="SelectCell.designer.cs">
+      <DependentUpon>SelectCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SelectionView.cs" />
+    <Compile Include="SelectionView.designer.cs">
+      <DependentUpon>SelectionView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SelectSource.cs" />
+    <Compile Include="SelectViewController.cs" />
+    <Compile Include="SelectViewController.designer.cs">
+      <DependentUpon>SelectViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SessionItem.cs" />
+    <Compile Include="StoreItem.cs" />
+    <Compile Include="Data.cs" />
+    <Compile Include="ShopTableViewSource.cs" />
+    <Compile Include="AchievementSource.cs" />
+    <Compile Include="ShopViewController.cs" />
+    <Compile Include="ShopViewController.designer.cs">
+      <DependentUpon>ShopViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="StoreCell.cs" />
+    <Compile Include="StoreCell.designer.cs">
+      <DependentUpon>StoreCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TimerInfo.cs" />
+    <Compile Include="Main.cs" />
+    <Compile Include="AppDelegate.cs" />
+    <Compile Include="StatsController.cs" />
+    <Compile Include="StatsController.designer.cs">
+      <DependentUpon>StatsController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TimerController.cs" />
+    <Compile Include="TimerController.designer.cs">
+      <DependentUpon>TimerController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TreeAddCell.cs" />
+    <Compile Include="TreeAddCell.designer.cs">
+      <DependentUpon>TreeAddCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TreeCell.cs" />
+    <Compile Include="TreeCell.designer.cs">
+      <DependentUpon>TreeCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TreeSource.cs" />
+    <Compile Include="TreeViewController.cs" />
+    <Compile Include="TreeViewController.designer.cs">
+      <DependentUpon>TreeViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserNotificationCenterDelegate.cs" />
+    <Compile Include="ViewController.cs" />
+    <Compile Include="ViewController.designer.cs">
+      <DependentUpon>ViewController.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\coins.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\heart.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\stats.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\achievments.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\title.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Tree.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\timer.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\check.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\pattern\bambous.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\pattern\barcelona.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\pattern\beach.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\pattern\boat.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\pattern\bubbles.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\pattern\cyan.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\pattern\door.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\pattern\dots.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\pattern\forest.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\pattern\ice_mountain.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\pattern\japan.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\pattern\london.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\pattern\map.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\pattern\moscow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\pattern\mountain.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\pattern\mountain-railway.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\pattern\new_york.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\pattern\paris.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\pattern\pink_floyd.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\pattern\rectangles.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\pattern\rio.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\pattern\roma.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\pattern\rosace.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\pattern\san_francisco.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\pattern\space.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\pattern\splash.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\pattern\splash_blue.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\pattern\swift.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\pattern\water.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\pattern\wood.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\pattern\wooden.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\cat\awaiting_kitten.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\cat\badass_kitten.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\cat\black_cat.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\cat\blue_eyed_kitten.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\cat\btp_cat.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\cat\christmas_kitten.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\cat\curious_kitten.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\cat\cute_kitten.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\cat\cute_kitty.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\cat\dab_cat.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\cat\delivery_cat.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\cat\dj_cat.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\cat\doc_cat.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\cat\dog_cat.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\cat\doubt_cat.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\cat\dragon_cat.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\cat\drawn_cat.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\cat\drawn_white_kitten.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\cat\duo_cat.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\cat\etirement_kitten.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\cat\fluffy_cat.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\cat\grey_cat.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\cat\gym_kitten.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\cat\hands_up_cat.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\cat\helmutz_cat.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\cat\high_five_cat.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\cat\hunting_kitten.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\cat\inventor_cat.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\cat\japanese_cat.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\cat\kawai_cat.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\cat\laying_kitten.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\cat\lonely_kitten.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\cat\manga_cat.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\cat\mexican_kitten.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\cat\orange_cat.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\cat\ready_cat.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\cat\santa_cat.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\cat\selfie_cat.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\cat\shoe_kitten.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\cat\shopping_kitten.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\cat\spy_cat.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\cat\tigrou.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\cat\tomato_cat.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\cat\traveller_cat.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\cat\whispering_cat.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\cat\winter_cat.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\title_tree2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\shop.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\achievements\rows\date60.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\add.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\select.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\achievements\money\coin.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\achievements\money\bank.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\achievements\money\coins.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\achievements\money\note.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\achievements\money\coins2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\achievements\money\notes.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\achievements\money\bag.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\achievements\rows\date30.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\achievements\rows\date20.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\achievements\rows\date15.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\achievements\rows\date10.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\achievements\rows\date7.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\achievements\rows\date5.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\achievements\rows\date2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\achievements\rows\date3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\achievements\hours\h1000.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\achievements\hours\h500.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\achievements\hours\h200.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\achievements\hours\h100.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\achievements\hours\h50.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\achievements\hours\h20.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\achievements\hours\h10.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\achievements\hours\h5.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\achievements\hours\h2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\achievements\hours\h1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\launch_title.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\achievements\shopping\shop100.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\achievements\shopping\shop80.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\achievements\shopping\shop50.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\achievements\shopping\shop40.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\achievements\shopping\shop20.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\achievements\shopping\shop10.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\achievements\shopping\shop5.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\achievements\shopping\shop3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\achievements\shopping\shop1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\achievements\cats\cat2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\achievements\cats\cat6.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\achievements\cats\cat4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\achievements\cats\cat1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\achievements\cats\cat3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\achievements\cats\cat5.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\achievements\cats\cat7.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\achievements\patterns\bg50.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\achievements\patterns\bg40.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\achievements\patterns\bg20.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\achievements\patterns\bg10.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\achievements\patterns\bg5.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\achievements\patterns\bg3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\achievements\patterns\bg1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\launch_image.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
+</Project>
