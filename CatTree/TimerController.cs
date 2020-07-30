@@ -91,7 +91,7 @@ namespace CatTree
                     label_support.Text = "Super !";
                     TimerInfo.is_completed = true;
                     TimerInfo.ongoing = false;
-                    NavigationController.PopToRootViewController(true);
+                    //NavigationController.PopToRootViewController(true);
                 }
 
             });

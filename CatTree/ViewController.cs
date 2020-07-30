@@ -100,6 +100,10 @@ namespace CatTree
                     TimerInfo.min = 0;
                     TimerInfo.hour += 1;
                 }
+                if(TimerInfo.min ==0 & TimerInfo.hour == 0)
+                {
+                    TimerInfo.min = 1;
+                }
                 time_label.Text = TimerInfo.hour.ToString() + " h " + TimerInfo.min.ToString() + " min";
                 TimerInfo.coins = (int)Math.Truncate((double)TimerInfo.hour* 100+TimerInfo.min*100/60);
                 TimerInfo.EndDate = DateTime.Now.AddHours(TimerInfo.hour).AddMinutes(TimerInfo.min);
