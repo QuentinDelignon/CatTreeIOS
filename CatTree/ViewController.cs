@@ -14,6 +14,31 @@ namespace CatTree
         {
             base.ViewDidAppear(animated);
             money_label.Text = AppData.Coins.myCoins[0].ToString();
+            try { TimerInfo.Load(); } catch { }
+            if (TimerInfo.ongoing)
+            {
+                if (DateTime.Now.CompareTo(TimerInfo.EndDate)==1)
+                {
+                    SessionItem NewSession = new SessionItem() { CoinsEarned = TimerInfo.coins, Date = DateTime.Now, Duration = new TimeSpan(TimerInfo.hour, TimerInfo.min, 0) };
+                    AppData.Coins.Add(TimerInfo.coins);
+                    AppData.SessionItems.AddSession(NewSession);
+                    AppData.SessionItems.Save();
+                    AppData.Coins.Save();
+
+                    money_label.Text = AppData.Coins.myCoins[0].ToString();
+                    string message = "Tu as Travaillé " + TimerInfo.hour.ToString() + " h et " + TimerInfo.min.ToString() + " minutes !";
+                    var okAlertController = UIAlertController.Create("Bien Joué !", message, UIAlertControllerStyle.Alert);
+                    okAlertController.AddAction(UIAlertAction.Create("OK", UIAlertActionStyle.Default, null));
+                    PresentViewController(okAlertController, true, null);
+                    TimerInfo.Reset();
+                }
+                else
+                {
+                    UIStoryboard storyboard = UIStoryboard.FromName("Main", null);
+                    UIViewController homeViewController = storyboard.InstantiateViewController("timer") as UIViewController;
+                    PresentViewController(homeViewController, true, null);
+                }
+            }
         }
         public override void ViewDidLoad ()
         {
@@ -63,6 +88,7 @@ namespace CatTree
                 TimerInfo.hour = (int)Math.Truncate(time_val);
                 TimerInfo.min = (int)Math.Truncate((time_val - Math.Truncate(time_val)) * 60);
                 TimerInfo.coins = (int)Math.Truncate(time_val * 100);
+                TimerInfo.EndDate = DateTime.Now.AddHours(TimerInfo.hour).AddMinutes(TimerInfo.min);
                 TimerInfo.is_completed = false; 
             };
                 

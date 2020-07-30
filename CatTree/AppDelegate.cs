@@ -21,7 +21,7 @@ namespace CatTree
             UNUserNotificationCenter.Current.RequestAuthorization(UNAuthorizationOptions.Alert, (approved, err) => {
                 // Handle approval
             });
-            //Pouir ne pas afficher la notif si l'appli est ouverte
+            //Pour ne pas afficher la notif si l'appli est ouverte
             UNUserNotificationCenter.Current.Delegate = new UserNotificationCenterDelegate();
             return true;
         }
@@ -42,6 +42,16 @@ namespace CatTree
             // Called when the user discards a scene session.
             // If any sessions were discarded while the application was not running, this will be called shortly after `FinishedLaunching`.
             // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
+        }
+        [Export("applicationDidEnterBackground:")]
+        public virtual void DidEnterBackground(UIApplication application)
+        {
+            TimerInfo.Save();
+        }
+        [Export("applicationWillEnterForeground:")]
+        public virtual void WillEnterForeground(UIApplication application)
+        {
+            try { TimerInfo.Load(); } catch { }
         }
     }
 }
