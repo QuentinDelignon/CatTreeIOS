@@ -91,7 +91,10 @@ namespace CatTree
                     label_support.Text = "Super !";
                     TimerInfo.is_completed = true;
                     TimerInfo.ongoing = false;
-                    //NavigationController.PopToRootViewController(true);
+                    TimerInfo.Save();
+                    UIStoryboard storyboard = UIStoryboard.FromName("Main", null);
+                    UIViewController homeViewController = storyboard.InstantiateViewController("home") as UIViewController;
+                    PresentViewController(homeViewController, true, null);
                 }
 
             });
