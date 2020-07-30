@@ -391,11 +391,11 @@ namespace CatTree
                 {           
                     if (now - Sessions[i].Date < span)
                     {
-                        output.Add(new ChartEntry(Convert.ToSingle(Math.Truncate(Sessions[i].Duration.TotalHours)))
+                        output.Add(new ChartEntry(Convert.ToSingle(Math.Round(Sessions[i].Duration.TotalHours,2)))
                         {
                             Color = myColors[i % myColors.Count()],
                             Label = Sessions[i].Date.ToShortDateString(),
-                            ValueLabel = Math.Truncate(Sessions[i].Duration.TotalHours).ToString()
+                            ValueLabel = Convert.ToSingle(Math.Round(Sessions[i].Duration.TotalHours, 2)).ToString()
                         });
                     }
                 }
@@ -463,12 +463,12 @@ namespace CatTree
             try { Coins.Load();} catch { };
             AchievementItems.Ongoing = new List<AchievementItem>();
             AchievementItems.Done = new List<AchievementItem>();
-            TimeSpan TotalTime = new TimeSpan(0, 0, 0, 0);
+            double TotalTime = 0;
             int MaxinRow = 0;
             var CurrinRow = 0;
             for (int i = 0; i < SessionItems.Sessions.Count(); i++)
             {
-                TotalTime.Add(SessionItems.Sessions[i].Duration);
+                TotalTime += SessionItems.Sessions[i].Duration.TotalHours;
                 if (i > 0)
                 {
                     if (SessionItems.Sessions[i].Date.Subtract(SessionItems.Sessions[i - 1].Date) < new TimeSpan(1,12, 0, 0))
@@ -497,12 +497,11 @@ namespace CatTree
                 }
             }
             // Partie 1 - Temps Total 
-            var TotalHours = TotalTime.TotalHours;
             List<int> Milestones = new List<int>() { 1, 2, 5, 10, 20, 50, 100, 200, 500, 1000 };
             for (int i = 0; i < Milestones.Count(); ++i)
             {
                 // Heures 16-25
-                if (TotalHours >= Milestones[i])
+                if (TotalTime >= Milestones[i])
                 {
                     // Succès Faits 
                     AchievementItems.Done.Add(AchievementItems.All[16 + i]);
@@ -511,7 +510,7 @@ namespace CatTree
                 else
                 {
                     //Calculer la progression & ajouter
-                    double prog = (double)TotalHours / Milestones[i];
+                    double prog = (double)TotalTime / Milestones[i];
                     var ach = AchievementItems.All[16 + i];
                     ach.progress = prog;
                     AchievementItems.Ongoing.Add(ach);

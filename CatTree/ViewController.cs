@@ -1,6 +1,7 @@
 ﻿using CoreLocation;
 using Foundation;
 using System;
+using System.Collections.Generic;
 using UIKit;
 
 namespace CatTree
@@ -58,11 +59,25 @@ namespace CatTree
             {
                 strval = slider.Value.ToString();
                 time_val = slider.Value;
-                coin_label.Text = Math.Truncate(time_val * 100).ToString();
-                time_label.Text = Math.Truncate(time_val).ToString()+" h "+Math.Truncate((time_val-Math.Truncate(time_val))*60).ToString()+" min";
                 TimerInfo.hour = (int)Math.Truncate(time_val);
                 TimerInfo.min = (int)Math.Truncate((time_val - Math.Truncate(time_val)) * 60);
-                TimerInfo.coins = (int)Math.Truncate(time_val * 100);
+                var quarters = new List<int> { 0, 15, 30, 45, 60 };
+                for (int i = 0; i < quarters.Count; i++)
+                {
+                    if (Math.Abs(quarters[i]-TimerInfo.min) <= 12.5)
+                    {
+                        TimerInfo.min = quarters[i];
+                        break;
+                    }
+                }
+                if (TimerInfo.min == 60)
+                {
+                    TimerInfo.min = 0;
+                    TimerInfo.hour += 1;
+                }
+                time_label.Text = TimerInfo.hour.ToString() + " h " + TimerInfo.min.ToString() + " min";
+                TimerInfo.coins = (int)Math.Truncate((double)TimerInfo.hour* 100+TimerInfo.min*100/60);
+                coin_label.Text = TimerInfo.coins.ToString();
                 TimerInfo.is_completed = false; 
             };
                 
