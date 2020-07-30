@@ -628,7 +628,7 @@
         </scene>
         <scene sceneID="3233">
             <objects>
-                <viewController id="3234" sceneMemberID="viewController" customClass="TimerController">
+                <viewController id="3234" sceneMemberID="viewController" customClass="TimerController" storyboardIdentifier="timer">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="3231"/>
                         <viewControllerLayoutGuide type="bottom" id="3232"/>

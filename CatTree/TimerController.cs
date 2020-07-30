@@ -7,8 +7,7 @@ using UserNotifications;
 namespace CatTree
 {
     public partial class TimerController : UIViewController
-    {
-        DateTime endDate = DateTime.Now.AddHours(TimerInfo.hour).AddMinutes(TimerInfo.min);
+    { 
         TimeSpan totalSpan = TimeSpan.FromSeconds(TimerInfo.hour*3600+TimerInfo.min*60);
         Timer timer = new System.Timers.Timer();
         public TimerController (IntPtr handle) : base (handle){
@@ -24,7 +23,7 @@ namespace CatTree
             content.Subtitle = "Ta session de travail a duré "+TimerInfo.hour.ToString()+" h et "+TimerInfo.min.ToString()+" minutes !";
             content.Body = "";
             content.Badge = 1;
-            var trigger = UNTimeIntervalNotificationTrigger.CreateTrigger(1, false);
+            var trigger = UNTimeIntervalNotificationTrigger.CreateTrigger((TimerInfo.EndDate-DateTime.Now).TotalSeconds, false);
 
             var requestID = "sampleRequest";
             var request = UNNotificationRequest.FromIdentifier(requestID, content, trigger);
@@ -41,29 +40,57 @@ namespace CatTree
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
-            // 1000= 1 second , the timer will run every second 
-            label_support.Text = "C'est Parti !";
-            timer_progress.SetProgress(0,false);
-            timer.Interval = 1000;
-            timer.Enabled = true;
-            timer.Elapsed += Timer_Elapsed;
-            timer.Start();
+            stop_timer_button.TouchUpInside += (sender, e) => {
+                if (TimerInfo.ongoing)
+                {
+                    TimerInfo.Reset();
+                }
+                    TimerInfo.Save();                
+            };
+            if (TimerInfo.ongoing == false)
+            {
+                CreateNotification();
+                TimerInfo.ongoing = true;
+                TimerInfo.StartDate = DateTime.Now;
+                // 1000= 1 second , the timer will run every second 
+                label_support.Text = "C'est Parti !";
+                timer_progress.SetProgress(0, false);
+                timer.Interval = 1000;
+                timer.Enabled = true;
+                timer.Elapsed += Timer_Elapsed;
+                timer.Start();
+            }
+            else
+            {
+                label_support.Text = "C'est Parti !";
+                var total = TimerInfo.EndDate - TimerInfo.StartDate;
+                var remaining = TimerInfo.EndDate - DateTime.Now;
+                var prog = (float) remaining.Divide(total);
+                timer_progress.SetProgress(prog, false);
+                label_percent.Text = Math.Truncate(100 * prog).ToString() + " %";
+                timer.Interval = 1000;
+                timer.Enabled = true;
+                timer.Elapsed += Timer_Elapsed;
+                timer.Start();
+            }
+
             }
         private void Timer_Elapsed(object sender, ElapsedEventArgs e)
         {
             DateTime myDate = DateTime.Now;
-            TimeSpan remaining = endDate.Subtract(myDate);
+            TimeSpan remaining = TimerInfo.EndDate.Subtract(myDate);
             double percent = 1 - remaining.Divide(totalSpan);
             InvokeOnMainThread(() => {
                 timer_label.Text = remaining.Hours.ToString() + " h " + remaining.Minutes.ToString() + " min " + remaining.Seconds.ToString()+" s";
                 label_percent.Text = Math.Truncate(percent * 100).ToString()+" %";
                 timer_progress.SetProgress(Convert.ToSingle(percent), true);
+                TimerInfo.Save();
                 if (percent >=1)
                 {
                     timer.Stop();
                     label_support.Text = "Super !";
                     TimerInfo.is_completed = true;
-                    CreateNotification();
+                    TimerInfo.ongoing = false;
                 }
 
             });
@@ -73,6 +100,7 @@ namespace CatTree
             base.DidReceiveMemoryWarning();
             // Release any cached data, images, etc that aren't in use.  
         }
+        /*
         public override void ViewWillDisappear(bool animated)
         {
             base.ViewWillDisappear(animated);
@@ -82,7 +110,7 @@ namespace CatTree
             {
                 NavigationController.PopToRootViewController(true);
             }
-
         }
+        */
     }
 }
