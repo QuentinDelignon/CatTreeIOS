@@ -19,7 +19,7 @@ namespace CatTree
             chart.LabelTextSize = 30;
             var chartView = new ChartView
             {
-                Frame = new CGRect(0, 400, this.View.Bounds.Width, 260 ),
+                Frame = new CGRect(0, 400, this.View.Bounds.Width, 240 ),
                 AutoresizingMask = UIViewAutoresizing.FlexibleWidth,
                 Chart = chart
             };
