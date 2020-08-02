@@ -365,6 +365,7 @@ namespace CatTree
 
             public static void AddSession(SessionItem NewSession)
             {
+                Load();
                 Sessions.Add(NewSession);
                 Save();
             }
@@ -405,9 +406,10 @@ namespace CatTree
             {
                 List<int> output = new List<int>();
                 DateTime now = DateTime.Now;
-                List<TimeSpan> Spans = new List<TimeSpan>() { new TimeSpan(), new TimeSpan(), new TimeSpan(0, 0, 0, 0,0)};
+                List<TimeSpan> Spans = new List<TimeSpan>() { new TimeSpan(), new TimeSpan(), new TimeSpan()};
                 Spans[0] = now.AddDays(7) - now;
                 Spans[1] = now.AddMonths(1) - now;
+                Spans[2] = now.AddYears(5) - now;
                 for (int i =0; i < Spans.Count(); i++)
                 {
                     var count = 0.0;
