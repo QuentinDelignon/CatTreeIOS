@@ -230,6 +230,7 @@
     <Compile Include="TreeCell.designer.cs">
       <DependentUpon>TreeCell.cs</DependentUpon>
     </Compile>
+    <Compile Include="TreeDelegate.cs" />
     <Compile Include="TreeSource.cs" />
     <Compile Include="TreeViewController.cs" />
     <Compile Include="TreeViewController.designer.cs">
@@ -660,6 +661,9 @@
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\launch_image.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\bin_icon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

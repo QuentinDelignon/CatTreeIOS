@@ -1,7 +1,10 @@
 using CoreGraphics;
 using Foundation;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 using UIKit;
 
 namespace CatTree
@@ -30,7 +33,7 @@ namespace CatTree
                 switch (gesture.State)
                 {
                     case UIGestureRecognizerState.Began:
-                        var selectedIndexPath = myCollection.IndexPathForItemAtPoint(gesture.LocationInView(myCollection));
+                        NSIndexPath selectedIndexPath = myCollection.IndexPathForItemAtPoint(gesture.LocationInView(myCollection));
                         if (selectedIndexPath != null)
                             myCollection.BeginInteractiveMovementForItem(selectedIndexPath);
                         break;
@@ -45,7 +48,10 @@ namespace CatTree
                         break;
                 }
             });
+            longPressGesture.NumberOfTapsRequired = 1;
+            longPressGesture.DelaysTouchesBegan = true;
             myCollection.AddGestureRecognizer(longPressGesture);
+            myCollection.Delegate = new TreeDelegate();
         }
         private void OnSelectedButtonTapped(object sender, EventArgs e)
         {
@@ -63,6 +69,7 @@ namespace CatTree
             mylayout.MinimumLineSpacing = 5f;
             myCollection.CollectionViewLayout = mylayout;
             myCollection.DataSource = source;
+            myCollection.Delegate = new TreeDelegate();
         }
     }
 

@@ -20,7 +20,7 @@ namespace CatTree
         }
         public override UICollectionViewCell GetCell(UICollectionView CollectionView, NSIndexPath indexPath)
         {
-            try
+            if (indexPath.Row != AppData.TreeItems.Cats.Count)
             {
                 TreeCell cell = CollectionView.DequeueReusableCell(cellID, indexPath) as TreeCell;
                 StoreItem Cat = AppData.TreeItems.Cats[indexPath.Row];
@@ -28,7 +28,7 @@ namespace CatTree
                 cell.UpdateCell(Cat, Pattern);
                 return cell;
             }
-            catch
+            else
             {
                 TreeAddCell add_cell = CollectionView.DequeueReusableCell(AddcellID, indexPath) as TreeAddCell;
                 add_cell.AddButtonTapped -= NewItemButtonTapped;
@@ -50,7 +50,7 @@ namespace CatTree
         }
         public override bool CanMoveItem(UICollectionView collectionView, NSIndexPath indexPath)
         {
-            return true;
+            return indexPath.Row != AppData.TreeItems.Cats.Count;
         }
         public override void MoveItem(UICollectionView collectionView, NSIndexPath sourceIndexPath, NSIndexPath destinationIndexPath)
         {
