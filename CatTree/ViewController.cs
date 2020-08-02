@@ -44,16 +44,7 @@ namespace CatTree
         public override void ViewDidLoad ()
         {
             base.ViewDidLoad ();
-            try
-            {
-                AppData.Coins.Load();
-            }
-            catch
-            {
-                
-            }
-            //total_money.Text = AppData.Coins.myCoins[1].ToString();
-            // Perform any additional setup after loading the view, typically from a nib.
+            try{AppData.Coins.Load();}catch{}
             if (TimerInfo.is_completed)
             {
                 SessionItem NewSession = new SessionItem() { CoinsEarned = TimerInfo.coins , Date = DateTime.Now, Duration = new TimeSpan(TimerInfo.hour, TimerInfo.min, 0)};
@@ -69,24 +60,44 @@ namespace CatTree
                 PresentViewController(okAlertController, true, null);
                 TimerInfo.Reset();
             }
+            start_button.UserInteractionEnabled = false;
             slider.MinValue = 0;
             slider.MaxValue = 5;
-            slider.Value = 0;
+            slider.Value = 0.5f;
             string strval = slider.Value.ToString();
             float time_val = slider.Value;
-            coin_label.Text = Math.Truncate(time_val * 100).ToString();
-            time_label.Text = Math.Truncate(time_val).ToString() + " h " + Math.Truncate((time_val - Math.Truncate(time_val)) * 60).ToString() + " min";
             TimerInfo.hour = (int)Math.Truncate(time_val);
             TimerInfo.min = (int)Math.Truncate((time_val - Math.Truncate(time_val)) * 60);
-            TimerInfo.coins = (int)Math.Truncate(time_val * 100);
+            var quarters = new List<int> { 0, 15, 30, 45, 60 };
+            for (int i = 0; i < quarters.Count; i++)
+            {
+                if (Math.Abs(quarters[i] - TimerInfo.min) <= 12.5)
+                {
+                    TimerInfo.min = quarters[i];
+                    break;
+                }
+            }
+            if (TimerInfo.min == 60)
+            {
+                TimerInfo.min = 0;
+                TimerInfo.hour += 1;
+            }
+            if (TimerInfo.min == 0 & TimerInfo.hour == 0)
+            {
+                TimerInfo.min = 1;
+            }
+            time_label.Text = TimerInfo.hour.ToString() + " h " + TimerInfo.min.ToString() + " min";
+            TimerInfo.coins = (int)Math.Truncate((double)TimerInfo.hour * 100 + TimerInfo.min * 100 / 60);
+            TimerInfo.EndDate = DateTime.Now.AddHours(TimerInfo.hour).AddMinutes(TimerInfo.min);
+            coin_label.Text = TimerInfo.coins.ToString();
             TimerInfo.is_completed = false;
             slider.ValueChanged += (object sender, EventArgs e) =>
             {
+                start_button.UserInteractionEnabled = true;
                 strval = slider.Value.ToString();
                 time_val = slider.Value;
                 TimerInfo.hour = (int)Math.Truncate(time_val);
                 TimerInfo.min = (int)Math.Truncate((time_val - Math.Truncate(time_val)) * 60);
-                var quarters = new List<int> { 0, 15, 30, 45, 60 };
                 for (int i = 0; i < quarters.Count; i++)
                 {
                     if (Math.Abs(quarters[i]-TimerInfo.min) <= 12.5)
@@ -110,7 +121,7 @@ namespace CatTree
                 coin_label.Text = TimerInfo.coins.ToString();
                 TimerInfo.is_completed = false; 
             };
-                
+
         }
 
         public override void DidReceiveMemoryWarning ()

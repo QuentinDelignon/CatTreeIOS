@@ -9,7 +9,7 @@
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModuleProvider="" sceneMemberID="viewController" storyboardIdentifier="home">
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModuleProvider="" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -121,7 +121,7 @@
         </scene>
         <scene sceneID="2001">
             <objects>
-                <tabBarController id="2002" sceneMemberID="viewController">
+                <tabBarController id="2002" sceneMemberID="viewController" storyboardIdentifier="home">
                     <tabBar key="tabBar" contentMode="scaleToFill" id="2005">
                         <rect key="frame" x="0.0" y="686" width="414" height="50"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -952,11 +952,11 @@
         <image name="shop.png" width="404" height="84"/>
         <image name="check.png" width="4167" height="4167"/>
         <image name="select.png" width="407" height="64"/>
-        <image name="play.fill" catalog="system"/>
-        <image name="chart.bar.fill" catalog="system"/>
         <image name="checkmark.circle.fill" catalog="system"/>
+        <image name="plus" catalog="system"/>
         <image name="house.fill" catalog="system"/>
         <image name="bag.fill" catalog="system"/>
-        <image name="plus" catalog="system"/>
+        <image name="chart.bar.fill" catalog="system"/>
+        <image name="play.fill" catalog="system"/>
     </resources>
 </document>
