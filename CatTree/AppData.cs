@@ -375,30 +375,66 @@ namespace CatTree
                 var output = new List<ChartEntry>();
                 DateTime now = DateTime.Now;
                 TimeSpan span = new TimeSpan(7, 0, 0, 0);
+                TimeSpan xrange = new TimeSpan();
                 if (SpanType == 0)
                 {
                     span = new TimeSpan(7,0,0,0);
+                    xrange = new TimeSpan(1, 0, 0, 0);
                     
                 }
                 if (SpanType == 1)
                 {
                     span = now.AddMonths(1) - now;
+                    xrange = now.AddDays(7) - now;
                 }
                 if (SpanType == 2)
                 {
-                    span = now.AddMonths(6) - now;
+                    span = now.AddYears(1) - now;
+                    xrange = now.AddMonths(1) - now;
                 }
+                var selectedSessions = new List<SessionItem>();
                 for (int i = 0; i < Sessions.Count(); i++)
                 {           
                     if (now - Sessions[i].Date < span)
                     {
+                        /* Old Version
                         output.Add(new ChartEntry(Convert.ToSingle(Math.Round(Sessions[i].Duration.TotalHours,2)))
                         {
                             Color = myColors[i % myColors.Count()],
                             Label = Sessions[i].Date.ToShortDateString(),
                             ValueLabel = Convert.ToSingle(Math.Round(Sessions[i].Duration.TotalHours, 2)).ToString()
                         });
+                        */
+                        //New version 
+                        selectedSessions.Add(Sessions[i]);
                     }
+                }
+                if (selectedSessions.Count() > 0)
+                {
+                    var duration = selectedSessions[0].Duration.TotalHours;
+                    for (int i = 1; i < selectedSessions.Count(); i++)
+                    {
+                        if (selectedSessions[i].Date - selectedSessions[i - 1].Date < xrange)
+                        {
+                            duration += selectedSessions[i].Duration.TotalHours;
+                        }
+                        else
+                        {
+                            output.Add(new ChartEntry(Convert.ToSingle(duration))
+                            {
+                                Color = myColors[i % myColors.Count()],
+                                Label = selectedSessions[i - 1].Date.ToShortDateString(),
+                                ValueLabel = Convert.ToSingle(Math.Round(duration, 2)).ToString()
+                            });
+                            duration = selectedSessions[i].Duration.TotalHours;
+                        }
+                    }
+                    output.Add(new ChartEntry(Convert.ToSingle(duration))
+                    {
+                        Color = myColors[(selectedSessions.Count() - 1) % myColors.Count()],
+                        Label = selectedSessions[selectedSessions.Count() - 1].Date.ToShortDateString(),
+                        ValueLabel = Convert.ToSingle(Math.Round(duration, 2)).ToString()
+                    });
                 }
                 return output.ToArray();
             }
