@@ -952,11 +952,11 @@
         <image name="shop.png" width="404" height="84"/>
         <image name="check.png" width="4167" height="4167"/>
         <image name="select.png" width="407" height="64"/>
+        <image name="play.fill" catalog="system"/>
+        <image name="chart.bar.fill" catalog="system"/>
         <image name="checkmark.circle.fill" catalog="system"/>
-        <image name="plus" catalog="system"/>
         <image name="house.fill" catalog="system"/>
         <image name="bag.fill" catalog="system"/>
-        <image name="chart.bar.fill" catalog="system"/>
-        <image name="play.fill" catalog="system"/>
+        <image name="plus" catalog="system"/>
     </resources>
 </document>

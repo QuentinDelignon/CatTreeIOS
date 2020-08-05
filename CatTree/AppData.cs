@@ -412,9 +412,11 @@ namespace CatTree
                 if (selectedSessions.Count() > 0)
                 {
                     var duration = selectedSessions[0].Duration.TotalHours;
+                    var first = selectedSessions[0];
+                    var count = 0;
                     for (int i = 1; i < selectedSessions.Count(); i++)
                     {
-                        if (selectedSessions[i].Date - selectedSessions[i - 1].Date < xrange)
+                        if (selectedSessions[i].Date - first.Date < xrange)
                         {
                             duration += selectedSessions[i].Duration.TotalHours;
                         }
@@ -422,17 +424,19 @@ namespace CatTree
                         {
                             output.Add(new ChartEntry(Convert.ToSingle(duration))
                             {
-                                Color = myColors[i % myColors.Count()],
-                                Label = selectedSessions[i - 1].Date.ToShortDateString(),
+                                Color = myColors[count % myColors.Count()],
+                                Label = first.Date.ToShortDateString(),
                                 ValueLabel = Convert.ToSingle(Math.Round(duration, 2)).ToString()
                             });
                             duration = selectedSessions[i].Duration.TotalHours;
+                            first = selectedSessions[i];
+                            count += 1;
                         }
                     }
                     output.Add(new ChartEntry(Convert.ToSingle(duration))
                     {
-                        Color = myColors[(selectedSessions.Count() - 1) % myColors.Count()],
-                        Label = selectedSessions[selectedSessions.Count() - 1].Date.ToShortDateString(),
+                        Color = myColors[count % myColors.Count()],
+                        Label = first.Date.ToShortDateString(),
                         ValueLabel = Convert.ToSingle(Math.Round(duration, 2)).ToString()
                     });
                 }
