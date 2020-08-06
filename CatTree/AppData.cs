@@ -365,7 +365,7 @@ namespace CatTree
 
             public static void AddSession(SessionItem NewSession)
             {
-                Load();
+                try { Load(); } catch { }
                 Sessions.Add(NewSession);
                 Save();
             }
