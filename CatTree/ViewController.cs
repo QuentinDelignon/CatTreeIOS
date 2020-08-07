@@ -32,6 +32,7 @@ namespace CatTree
                     okAlertController.AddAction(UIAlertAction.Create("OK", UIAlertActionStyle.Default, null));
                     PresentViewController(okAlertController, true, null);
                     TimerInfo.Reset();
+                    TimerInfo.Save();
                 }
                 else
                 {
@@ -59,6 +60,7 @@ namespace CatTree
                 okAlertController.AddAction(UIAlertAction.Create("OK", UIAlertActionStyle.Default, null));
                 PresentViewController(okAlertController, true, null);
                 TimerInfo.Reset();
+                TimerInfo.Save();
             }
             start_button.UserInteractionEnabled = false;
             slider.MinValue = 0;
