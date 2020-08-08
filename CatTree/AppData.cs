@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 
 using Foundation;
@@ -414,6 +416,7 @@ namespace CatTree
                     var duration = selectedSessions[0].Duration.TotalHours;
                     var first = selectedSessions[0];
                     var count = 0;
+                    var label = "error";
                     for (int i = 1; i < selectedSessions.Count(); i++)
                     {
                         if (selectedSessions[i].Date - first.Date < xrange)
@@ -422,22 +425,53 @@ namespace CatTree
                         }
                         else
                         {
+                            if (SpanType == 0)
+                            {
+                                label = first.Date.ToString("dddd");
+                            }
+                            if (SpanType == 1)
+                            {
+                                CultureInfo ciCurr = CultureInfo.CurrentCulture;
+                                int dayNum = ciCurr.Calendar.GetDayOfMonth(first.Date);
+                                int week = dayNum / 7;
+                                label = "semaine " + week.ToString();
+
+                            }
+                            if (SpanType == 2)
+                            {
+                                label = first.Date.ToString("MMMM");
+                            }
                             output.Add(new ChartEntry(Convert.ToSingle(duration))
                             {
                                 Color = myColors[count % myColors.Count()],
-                                Label = first.Date.ToShortDateString(),
-                                ValueLabel = Convert.ToSingle(Math.Round(duration, 2)).ToString()
-                            });
+                                Label = label,
+                                ValueLabel = GetString(duration),
+                            }) ;
                             duration = selectedSessions[i].Duration.TotalHours;
                             first = selectedSessions[i];
                             count += 1;
                         }
                     }
+                    if (SpanType == 0)
+                    {
+                        label = first.Date.ToString("dddd");
+                    }
+                    if (SpanType == 1)
+                    {
+                        CultureInfo ciCurr = CultureInfo.CurrentCulture;
+                        int dayNum = ciCurr.Calendar.GetDayOfMonth(first.Date);
+                        int week = dayNum / 7;
+                        label = "semaine " + week.ToString();
+                    }
+                    if (SpanType == 2)
+                    {
+                        label = first.Date.ToString("MMMM");
+                    }
                     output.Add(new ChartEntry(Convert.ToSingle(duration))
                     {
                         Color = myColors[count % myColors.Count()],
-                        Label = first.Date.ToShortDateString(),
-                        ValueLabel = Convert.ToSingle(Math.Round(duration, 2)).ToString()
+                        Label = label,
+                        ValueLabel = GetString(duration),
                     });
                 }
                 return output.ToArray();
@@ -465,6 +499,20 @@ namespace CatTree
                 }
                 return output;
             }
+        }
+        public static string GetString(double duration)
+        {
+            var hours = Convert.ToSingle(Math.Round(duration, 2));
+            var min = hours - Math.Truncate(hours);
+            min = min * 100;
+            var hour = Math.Truncate(hours);
+            if (min >= 60)
+            {
+                hour += 1;
+                min = min - 60;
+            }
+            var valueLabel = hour.ToString() + " h " + Math.Truncate(min).ToString() + " m";
+            return valueLabel;
         }
         public static class Coins
         {
