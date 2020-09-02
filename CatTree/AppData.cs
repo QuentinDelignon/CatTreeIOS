@@ -597,28 +597,22 @@ namespace CatTree
                 TotalTime += SessionItems.Sessions[i].Duration.TotalHours;
                 if (i > 0)
                 {
-                    if (SessionItems.Sessions[i].Date.Subtract(SessionItems.Sessions[i - 1].Date) < new TimeSpan(1,12, 0, 0))
+                    var CurrDate = SessionItems.Sessions[i-1].Date;
+                    var NextDate = SessionItems.Sessions[i].Date;
+                    var ExpDate = SessionItems.Sessions[i].Date.AddDays(1);
+                    var Test = (NextDate.Day == ExpDate.Day & NextDate.Month == ExpDate.Month & NextDate.Year == ExpDate.Year);
+                    var Catch = (NextDate.Day == CurrDate.Day & NextDate.Month == CurrDate.Month & NextDate.Year == CurrDate.Year);
+                    if ( Test == true)
                     {
-                        if (SessionItems.Sessions[i].Date.Subtract(SessionItems.Sessions[i - 1].Date) > new TimeSpan(0, 12, 0, 0))
-                        {
-                            CurrinRow += 1;
-                        }
+                        CurrinRow += 1;
                         if (MaxinRow < CurrinRow)
                         {
                             MaxinRow = CurrinRow;
                         }
                     }
-                    else
+                    if (Catch == false)
                     {
                         CurrinRow = 0;
-                    }
-                }
-                else
-                {
-                    CurrinRow += 1;
-                    if (MaxinRow < CurrinRow)
-                    {
-                        MaxinRow = CurrinRow;
                     }
                 }
             }
