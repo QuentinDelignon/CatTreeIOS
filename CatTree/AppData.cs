@@ -395,22 +395,44 @@ namespace CatTree
                     xrange = now.AddMonths(1) - now;
                 }
                 var selectedSessions = new List<SessionItem>();
+                var CurrDate = DateTime.Now;
+                int WeekNumber = CurrDate.Day / 7;
+                int MonthNumber = CurrDate.Month;
+                int YearNumber = CurrDate.Year;
+                for (int i = 0; i < Sessions.Count(); i++)
+                {
+                    if (SpanType == 0)
+                    {
+                        if (now - Sessions[i].Date < span & WeekNumber == Sessions[i].Date.Day / 7)
+                        {
+                            selectedSessions.Add(Sessions[i]);
+                        }
+                    }
+                    if (SpanType == 1)
+                    {
+                        if (now - Sessions[i].Date < span & MonthNumber == Sessions[i].Date.Month)
+                        {
+                            selectedSessions.Add(Sessions[i]);
+                        }
+                    }
+                    if (SpanType == 2)
+                    {
+                        if (now - Sessions[i].Date < span & YearNumber == Sessions[i].Date.Year)
+                        {
+                            selectedSessions.Add(Sessions[i]);
+                        }
+                    }
+                }
+                /*
                 for (int i = 0; i < Sessions.Count(); i++)
                 {           
                     if (now - Sessions[i].Date < span)
                     {
-                        /* Old Version
-                        output.Add(new ChartEntry(Convert.ToSingle(Math.Round(Sessions[i].Duration.TotalHours,2)))
-                        {
-                            Color = myColors[i % myColors.Count()],
-                            Label = Sessions[i].Date.ToShortDateString(),
-                            ValueLabel = Convert.ToSingle(Math.Round(Sessions[i].Duration.TotalHours, 2)).ToString()
-                        });
-                        */
                         //New version 
                         selectedSessions.Add(Sessions[i]);
                     }
                 }
+                */
                 if (selectedSessions.Count() > 0)
                 {
                     var duration = selectedSessions[0].Duration.TotalHours;
@@ -480,6 +502,9 @@ namespace CatTree
             {
                 List<int> output = new List<int>();
                 DateTime now = DateTime.Now;
+                int WeekNumber = now.Day / 7;
+                int MonthNumber = now.Month;
+                int YearNumber = now.Year;
                 List<TimeSpan> Spans = new List<TimeSpan>() { new TimeSpan(), new TimeSpan(), new TimeSpan()};
                 Spans[0] = now.AddDays(7) - now;
                 Spans[1] = now.AddMonths(1) - now;
@@ -491,7 +516,18 @@ namespace CatTree
                     {
                         if (now - Sessions[j].Date < Spans[i] | i == 2)
                         {
-                            count += Sessions[j].Duration.TotalHours;
+                            if ( i == 0 & WeekNumber == Sessions[j].Date.Day / 7)
+                            {
+                                count += Sessions[j].Duration.TotalHours;
+                            }
+                            if ( i == 1 & MonthNumber == Sessions[j].Date.Month)
+                            {
+                                count += Sessions[j].Duration.TotalHours;
+                            }
+                            if ( i == 2)
+                            {
+                                count += Sessions[j].Duration.TotalHours;
+                            }
                         }
                     }
                     output.Add(Convert.ToInt32(Math.Truncate(count)));
