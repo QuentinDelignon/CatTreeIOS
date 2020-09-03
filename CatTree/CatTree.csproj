@@ -665,10 +665,10 @@
     <BundleResource Include="Resources\achievements\patterns\bg1.png" />
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\launch_image.png" />
+    <BundleResource Include="Resources\bin_icon.png" />
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\bin_icon.png" />
+    <BundleResource Include="Resources\launch_image.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>
