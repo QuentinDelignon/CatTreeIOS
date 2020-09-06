@@ -441,7 +441,20 @@ namespace CatTree
                     var label = "error";
                     for (int i = 1; i < selectedSessions.Count(); i++)
                     {
-                        if (selectedSessions[i].Date - first.Date < xrange)
+                        var myBool = false;
+                        switch (SpanType)
+                        {
+                            case 0:
+                                myBool = selectedSessions[i].Date.Day == first.Date.Day & selectedSessions[i].Date.Month == first.Date.Month & selectedSessions[i].Date.Year == first.Date.Year;
+                                break;
+                            case 1:
+                                myBool = (selectedSessions[i].Date - first.Date < new TimeSpan(7,0,0,0));
+                                break;
+                            case 2:
+                                myBool = selectedSessions[i].Date.Month == first.Date.Month & selectedSessions[i].Date.Year == first.Date.Year;
+                                break;
+                        }
+                        if (myBool == true)
                         {
                             duration += selectedSessions[i].Duration.TotalHours;
                         }
@@ -590,8 +603,8 @@ namespace CatTree
             AchievementItems.Ongoing = new List<AchievementItem>();
             AchievementItems.Done = new List<AchievementItem>();
             double TotalTime = 0;
-            int MaxinRow = 0;
-            var CurrinRow = 0;
+            int MaxinRow = 1;
+            var CurrinRow = 1;
             for (int i = 0; i < SessionItems.Sessions.Count(); i++)
             {
                 TotalTime += SessionItems.Sessions[i].Duration.TotalHours;
@@ -599,7 +612,7 @@ namespace CatTree
                 {
                     var CurrDate = SessionItems.Sessions[i-1].Date;
                     var NextDate = SessionItems.Sessions[i].Date;
-                    var ExpDate = SessionItems.Sessions[i].Date.AddDays(1);
+                    var ExpDate = SessionItems.Sessions[i-1].Date.AddDays(1);
                     var Test = (NextDate.Day == ExpDate.Day & NextDate.Month == ExpDate.Month & NextDate.Year == ExpDate.Year);
                     var Catch = (NextDate.Day == CurrDate.Day & NextDate.Month == CurrDate.Month & NextDate.Year == CurrDate.Year);
                     if ( Test == true)
@@ -612,7 +625,7 @@ namespace CatTree
                     }
                     if (Catch == false)
                     {
-                        CurrinRow = 0;
+                        CurrinRow = 1;
                     }
                 }
             }
