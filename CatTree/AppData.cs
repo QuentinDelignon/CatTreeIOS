@@ -17,6 +17,18 @@ namespace CatTree
 {
     public static class AppData
     {
+        static int GetWeekNumberOfMonth(DateTime date)
+        {
+            date = date.Date;
+            DateTime firstMonthDay = new DateTime(date.Year, date.Month, 1);
+            DateTime firstMonthMonday = firstMonthDay.AddDays((DayOfWeek.Monday + 7 - firstMonthDay.DayOfWeek) % 7);
+            if (firstMonthMonday > date)
+            {
+                firstMonthDay = firstMonthDay.AddMonths(-1);
+                firstMonthMonday = firstMonthDay.AddDays((DayOfWeek.Monday + 7 - firstMonthDay.DayOfWeek) % 7);
+            }
+            return (date - firstMonthMonday).Days / 7 + 1;
+        }
         public static class Inventory
         {
             public static List<StoreItem> Cats = new List<StoreItem>();
@@ -276,8 +288,8 @@ namespace CatTree
                 new AchievementItem() {cellTitle="Mais il est trop Mignon !",cellDesc="Acheter 5 Chats",cellImage="achievements/cats/cat3.png",progress=0.0f},
                 new AchievementItem() {cellTitle="Amis des Félins !",cellDesc="Acheter 10 Chats",cellImage="achievements/cats/cat4.png",progress=0.0f},
                 new AchievementItem() {cellTitle="Folle aux Chats !",cellDesc="Acheter 20 Chats",cellImage="achievements/cats/cat5.png",progress=0.0f},
-                new AchievementItem() {cellTitle="Animalis",cellDesc="Acheter 40 Chats",cellImage="achievements/cats/cat6.png",progress=0.0f},
-                new AchievementItem() {cellTitle="30 Millions d'Amis",cellDesc="Acheter 50 Chats",cellImage="achievements/cats/cat7.png",progress=0.0f},
+                new AchievementItem() {cellTitle="Animalis",cellDesc="Acheter 30 Chats",cellImage="achievements/cats/cat6.png",progress=0.0f},
+                new AchievementItem() {cellTitle="30 Millions d'Amis",cellDesc="Acheter 46 Chats",cellImage="achievements/cats/cat7.png",progress=0.0f},
                 // Objets 33-41
                 new AchievementItem() {cellTitle="Petit Plaisir",cellDesc="Acheter 1 Objet",cellImage="achievements/shopping/shop1.png",progress=0.0f},
                 new AchievementItem() {cellTitle="Aprem Shopping",cellDesc="Acheter 3 Objets",cellImage="achievements/shopping/shop3.png",progress=0.0f},
@@ -286,18 +298,18 @@ namespace CatTree
                 new AchievementItem() {cellTitle="Au Pire y'a Vinted !",cellDesc="Acheter 20 Objets",cellImage="achievements/shopping/shop20.png",progress=0.0f},
                 new AchievementItem() {cellTitle="Mais si je l'ai pas celui-là",cellDesc="Acheter 40 Objets",cellImage="achievements/shopping/shop40.png",progress=0.0f},
                 new AchievementItem() {cellTitle="Magasin de Quartier",cellDesc="Acheter 50 Objets",cellImage="achievements/shopping/shop50.png",progress=0.0f},
-                new AchievementItem() {cellTitle="Centre Commercial",cellDesc="Acheter 80 Objets",cellImage="achievements/shopping/shop80.png",progress=0.0f},
-                new AchievementItem() {cellTitle="Hangar Amazon",cellDesc="Acheter 100 Objets",cellImage="achievements/shopping/shop100.png",progress=0.0f},
+                new AchievementItem() {cellTitle="Centre Commercial",cellDesc="Acheter 60 Objets",cellImage="achievements/shopping/shop80.png",progress=0.0f},
+                new AchievementItem() {cellTitle="Hangar Amazon",cellDesc="Acheter 77 Objets",cellImage="achievements/shopping/shop100.png",progress=0.0f},
                 // Fonds 42-49
                 new AchievementItem() {cellTitle="Souriez !!",cellDesc="Acheter 1 Arrière-Plan",cellImage="achievements/patterns/bg1.png",progress=0.0f},
                 new AchievementItem() {cellTitle="Boomer Sur Instagram",cellDesc="Acheter 3 Arrière-Plans",cellImage="achievements/patterns/bg3.png",progress=0.0f},
                 new AchievementItem() {cellTitle="Attends je mets un filtre !",cellDesc="Acheter 5 Arrière-Plans",cellImage="achievements/patterns/bg5.png",progress=0.0f},
                 new AchievementItem() {cellTitle="J'ai plein de Followers !",cellDesc="Acheter 10 Arrière-Plans",cellImage="achievements/patterns/bg10.png",progress=0.0f},
                 new AchievementItem() {cellTitle="Stella Pearl",cellDesc="Acheter 20 Arrière-Plans",cellImage="achievements/patterns/bg20.png",progress=0.0f},
-                new AchievementItem() {cellTitle="Placement de Produit",cellDesc="Acheter 40 Arrière-Plans",cellImage="achievements/patterns/bg40.png",progress=0.0f},
-                new AchievementItem() {cellTitle="Influenceuse",cellDesc="Acheter 50 Arrière-Plans",cellImage="achievements/patterns/bg50.png",progress=0.0f},
+                new AchievementItem() {cellTitle="Placement de Produit",cellDesc="Acheter 25 Arrière-Plans",cellImage="achievements/patterns/bg40.png",progress=0.0f},
+                new AchievementItem() {cellTitle="Influenceuse",cellDesc="Acheter 31 Arrière-Plans",cellImage="achievements/patterns/bg50.png",progress=0.0f},
             };
-
+            public static List<int> DoneOnes = new List<int>(new int[All.Count()]);
 
             public static void SaveOngoing()
             {
@@ -328,6 +340,21 @@ namespace CatTree
                 string output = File.ReadAllText(filename);
                 List<AchievementItem> deserializedProduct = JsonConvert.DeserializeObject<List<AchievementItem>>(output);
                 Done = deserializedProduct;
+            }
+            public static void SaveDoneOnes()
+            {
+                var json = JsonConvert.SerializeObject(DoneOnes, Newtonsoft.Json.Formatting.Indented);
+                var documents = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                var filename = Path.Combine(documents, "Achievements_DoneOnes.json");
+                File.WriteAllText(filename, json);
+            }
+            public static void LoadDoneOnes()
+            {
+                var documents = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                var filename = Path.Combine(documents, "Achievements_DoneOnes.json");
+                string output = File.ReadAllText(filename);
+                List<int> deserializedProduct = JsonConvert.DeserializeObject<List<int>>(output);
+                DoneOnes = deserializedProduct;
             }
         }
         public static class SessionItems
@@ -376,63 +403,35 @@ namespace CatTree
             {
                 var output = new List<ChartEntry>();
                 DateTime now = DateTime.Now;
-                TimeSpan span = new TimeSpan(7, 0, 0, 0);
-                TimeSpan xrange = new TimeSpan();
-                if (SpanType == 0)
-                {
-                    span = new TimeSpan(7,0,0,0);
-                    xrange = new TimeSpan(1, 0, 0, 0);
-                    
-                }
-                if (SpanType == 1)
-                {
-                    span = now.AddMonths(1) - now;
-                    xrange = now.AddDays(7) - now;
-                }
-                if (SpanType == 2)
-                {
-                    span = now.AddYears(1) - now;
-                    xrange = now.AddMonths(1) - now;
-                }
                 var selectedSessions = new List<SessionItem>();
                 var CurrDate = DateTime.Now;
-                int WeekNumber = CurrDate.Day / 7;
+                int WeekNumber = GetWeekNumberOfMonth(now);
                 int MonthNumber = CurrDate.Month;
                 int YearNumber = CurrDate.Year;
                 for (int i = 0; i < Sessions.Count(); i++)
                 {
                     if (SpanType == 0)
                     {
-                        if (now - Sessions[i].Date < span & WeekNumber == Sessions[i].Date.Day / 7)
+                        if (WeekNumber == GetWeekNumberOfMonth(Sessions[i].Date))
                         {
                             selectedSessions.Add(Sessions[i]);
                         }
                     }
                     if (SpanType == 1)
                     {
-                        if (now - Sessions[i].Date < span & MonthNumber == Sessions[i].Date.Month)
+                        if (MonthNumber == Sessions[i].Date.Month)
                         {
                             selectedSessions.Add(Sessions[i]);
                         }
                     }
                     if (SpanType == 2)
                     {
-                        if (now - Sessions[i].Date < span & YearNumber == Sessions[i].Date.Year)
+                        if (YearNumber == Sessions[i].Date.Year)
                         {
                             selectedSessions.Add(Sessions[i]);
                         }
                     }
                 }
-                /*
-                for (int i = 0; i < Sessions.Count(); i++)
-                {           
-                    if (now - Sessions[i].Date < span)
-                    {
-                        //New version 
-                        selectedSessions.Add(Sessions[i]);
-                    }
-                }
-                */
                 if (selectedSessions.Count() > 0)
                 {
                     var duration = selectedSessions[0].Duration.TotalHours;
@@ -448,7 +447,7 @@ namespace CatTree
                                 myBool = selectedSessions[i].Date.Day == first.Date.Day & selectedSessions[i].Date.Month == first.Date.Month & selectedSessions[i].Date.Year == first.Date.Year;
                                 break;
                             case 1:
-                                myBool = (selectedSessions[i].Date - first.Date < new TimeSpan(7,0,0,0));
+                                myBool = GetWeekNumberOfMonth(selectedSessions[i].Date) == GetWeekNumberOfMonth(first.Date) & selectedSessions[i].Date.Month == first.Date.Month & selectedSessions[i].Date.Year == first.Date.Year;
                                 break;
                             case 2:
                                 myBool = selectedSessions[i].Date.Month == first.Date.Month & selectedSessions[i].Date.Year == first.Date.Year;
@@ -466,9 +465,7 @@ namespace CatTree
                             }
                             if (SpanType == 1)
                             {
-                                CultureInfo ciCurr = CultureInfo.CurrentCulture;
-                                int dayNum = ciCurr.Calendar.GetDayOfMonth(first.Date);
-                                int week = dayNum / 7;
+                                int week = GetWeekNumberOfMonth(first.Date);
                                 label = "semaine " + week.ToString();
 
                             }
@@ -493,10 +490,8 @@ namespace CatTree
                     }
                     if (SpanType == 1)
                     {
-                        CultureInfo ciCurr = CultureInfo.CurrentCulture;
-                        int dayNum = ciCurr.Calendar.GetDayOfMonth(first.Date);
-                        int week = dayNum / 7;
-                        label = "semaine " + week.ToString();
+                        int week = GetWeekNumberOfMonth(first.Date);
+                        label = "Semaine " + week.ToString();
                     }
                     if (SpanType == 2)
                     {
@@ -515,7 +510,7 @@ namespace CatTree
             {
                 List<int> output = new List<int>();
                 DateTime now = DateTime.Now;
-                int WeekNumber = now.Day / 7;
+                int WeekNumber = GetWeekNumberOfMonth(now);
                 int MonthNumber = now.Month;
                 int YearNumber = now.Year;
                 List<TimeSpan> Spans = new List<TimeSpan>() { new TimeSpan(), new TimeSpan(), new TimeSpan()};
@@ -529,7 +524,7 @@ namespace CatTree
                     {
                         if (now - Sessions[j].Date < Spans[i] | i == 2)
                         {
-                            if ( i == 0 & WeekNumber == Sessions[j].Date.Day / 7)
+                            if ( i == 0 & WeekNumber == GetWeekNumberOfMonth(Sessions[j].Date))
                             {
                                 count += Sessions[j].Duration.TotalHours;
                             }
@@ -599,12 +594,24 @@ namespace CatTree
             try { Inventory.LoadCats(); } catch { };
             try { Inventory.LoadPatterns(); } catch { };
             try { SessionItems.Load(); } catch { };
+            try { AchievementItems.LoadDoneOnes(); } catch { AchievementItems.DoneOnes = new List<int>(new int[AchievementItems.All.Count()]); };
             try { Coins.Load();} catch { };
             AchievementItems.Ongoing = new List<AchievementItem>();
             AchievementItems.Done = new List<AchievementItem>();
             double TotalTime = 0;
             int MaxinRow = 1;
             var CurrinRow = 1;
+            void getCoins(int index,int num)
+            {
+                if (AchievementItems.DoneOnes[index] == 0)
+                {
+                    Coins.Add((num+1) * 50);
+                    Coins.Save();
+                    AchievementItems.DoneOnes[index] = 1;
+                    AchievementItems.SaveDoneOnes();
+                }
+                
+            }
             for (int i = 0; i < SessionItems.Sessions.Count(); i++)
             {
                 TotalTime += SessionItems.Sessions[i].Duration.TotalHours;
@@ -638,6 +645,7 @@ namespace CatTree
                 {
                     // Succès Faits 
                     AchievementItems.Done.Add(AchievementItems.All[16 + i]);
+                    getCoins(16 + i, i);
 
                 }
                 else
@@ -649,6 +657,7 @@ namespace CatTree
                     AchievementItems.Ongoing.Add(ach);
                 }
             }
+            /*
             // Partie 2 -  Jours D'affilés
             List<int> MilestoneRow = new List<int>() { 2, 3, 5, 7, 10, 15, 20, 30, 60 };
             for (int i = 0; i < MilestoneRow.Count(); i++)
@@ -668,6 +677,7 @@ namespace CatTree
 
                 }
             }
+            */
             // Partie 3 - Argent Gagné
             var TotalMoney = Coins.myCoins[1];
             List<int> MilestoneMoney = new List<int> {100, 1000, 2000, 5000, 10000, 50000, 100000 };
@@ -677,6 +687,7 @@ namespace CatTree
                 {
                     // Succès faits
                     AchievementItems.Done.Add(AchievementItems.All[i]);
+                    getCoins(i, i);
                 }
                 else
                 {
@@ -690,14 +701,14 @@ namespace CatTree
             // Partie 4 - Achats
             //Total
             var TotalItems = Inventory.Cats.Count() + Inventory.Patterns.Count();
-            List<int> MilestoneTotalItems = new List<int> { 1, 3, 5, 10, 20, 40, 50, 80, 100 };
+            List<int> MilestoneTotalItems = new List<int> { 1, 3, 5, 10, 20, 40, 50, 60, 77 };
             for (int i = 0; i < MilestoneTotalItems.Count(); i++)
             {
                 if (TotalItems >= MilestoneTotalItems[i])
                 {
                     // Succès faits
                     AchievementItems.Done.Add(AchievementItems.All[33+i]);
-
+                    getCoins(33+i, i);
                 }
                 else
                 {
@@ -711,13 +722,14 @@ namespace CatTree
             }
             //Chats
             var TotalCats = Inventory.Cats.Count();
-            List<int> MilestoneTotalCats = new List<int> { 1, 3, 5, 10, 20, 40, 50 };
+            List<int> MilestoneTotalCats = new List<int> { 1, 3, 5, 10, 20, 30 , 46 };
             for (int i = 0; i < MilestoneTotalCats.Count(); i++)
             {
                 if (TotalCats >= MilestoneTotalCats[i])
                 {
                     // Succès faits
                     AchievementItems.Done.Add(AchievementItems.All[26 + i]);
+                    getCoins(26+i, i);
                 }
                 else
                 {
@@ -730,13 +742,14 @@ namespace CatTree
             }
             //Patterns
             var TotalPatterns = Inventory.Patterns.Count();
-            List<int> MilestoneTotalPatterns = new List<int> { 1, 3, 5, 10, 20, 40, 50 };
+            List<int> MilestoneTotalPatterns = new List<int> { 1, 3, 5, 10, 20, 25, 31 };
             for (int i = 0; i < MilestoneTotalPatterns.Count(); i++)
             {
                 if (TotalPatterns >= MilestoneTotalPatterns[i])
                 {
                     // Succès faits
                     AchievementItems.Done.Add(AchievementItems.All[42 + i]);
+                    getCoins(42+i, i);
 
                 }
                 else
