@@ -18,7 +18,7 @@ namespace CatTree
             try { TimerInfo.Load(); } catch { }
             if (TimerInfo.ongoing)
             {
-                if (DateTime.Now.CompareTo(TimerInfo.EndDate)==1)
+                if (TimerInfo.remaining.TotalMilliseconds == 0 || TimerInfo.remaining != TimerInfo.remaining.Duration())
                 {
                     SessionItem NewSession = new SessionItem() { CoinsEarned = TimerInfo.coins, Date = DateTime.Now, Duration = new TimeSpan(TimerInfo.hour, TimerInfo.min, 0) };
                     AppData.Coins.Add(TimerInfo.coins);
@@ -36,6 +36,8 @@ namespace CatTree
                 }
                 else
                 {
+                    TimerInfo.got_killed = true;
+                    TimerInfo.return_date = DateTime.Now;
                     UIStoryboard storyboard = UIStoryboard.FromName("Main", null);
                     UIViewController homeViewController = storyboard.InstantiateViewController("timer") as UIViewController;
                     PresentViewController(homeViewController, true, null);
@@ -90,7 +92,8 @@ namespace CatTree
             }
             time_label.Text = TimerInfo.hour.ToString() + " h " + TimerInfo.min.ToString() + " min";
             TimerInfo.coins = (int)Math.Truncate((double)TimerInfo.hour * 100 + TimerInfo.min * 100 / 60);
-            TimerInfo.EndDate = DateTime.Now.AddHours(TimerInfo.hour).AddMinutes(TimerInfo.min);
+            TimerInfo.length = new TimeSpan(TimerInfo.hour, TimerInfo.min,0);
+            TimerInfo.remaining = TimerInfo.length;
             coin_label.Text = TimerInfo.coins.ToString();
             TimerInfo.is_completed = false;
             slider.ValueChanged += (object sender, EventArgs e) =>
@@ -119,7 +122,8 @@ namespace CatTree
                 }
                 time_label.Text = TimerInfo.hour.ToString() + " h " + TimerInfo.min.ToString() + " min";
                 TimerInfo.coins = (int)Math.Truncate((double)TimerInfo.hour* 100+TimerInfo.min*100/60);
-                TimerInfo.EndDate = DateTime.Now.AddHours(TimerInfo.hour).AddMinutes(TimerInfo.min);
+                TimerInfo.length = new TimeSpan(TimerInfo.hour, TimerInfo.min, 0);
+                TimerInfo.remaining = TimerInfo.length;
                 coin_label.Text = TimerInfo.coins.ToString();
                 TimerInfo.is_completed = false; 
             };

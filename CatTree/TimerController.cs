@@ -23,7 +23,7 @@ namespace CatTree
             content.Subtitle = "Ta session de travail a duré "+TimerInfo.hour.ToString()+" h et "+TimerInfo.min.ToString()+" minutes !";
             content.Body = "";
             content.Badge = 1;
-            var trigger = UNTimeIntervalNotificationTrigger.CreateTrigger((TimerInfo.EndDate-DateTime.Now).TotalSeconds, false);
+            var trigger = UNTimeIntervalNotificationTrigger.CreateTrigger(TimerInfo.remaining.TotalSeconds, false);
 
             var requestID = "sampleRequest";
             var request = UNNotificationRequest.FromIdentifier(requestID, content, trigger);
@@ -34,8 +34,11 @@ namespace CatTree
                     // Do something with error...
                 }
             });
-
-
+        }
+        public void DeleteNotification()
+        {
+            var requests = new string[] { "sampleRequest" };
+            UNUserNotificationCenter.Current.RemovePendingNotificationRequests(requests);
         }
         public override void ViewDidLoad()
         {
@@ -50,6 +53,7 @@ namespace CatTree
             pause_button.TouchUpInside += (sender, e) => {
                 if (TimerInfo.is_paused == false)
                 {
+                    DeleteNotification();
                     label_support.Text = "Allez On y Retourne !";
                     pause_button.SetBackgroundImage(UIImage.GetSystemImage("play"), UIControlState.Normal);
                     TimerInfo.is_paused = true;
@@ -57,6 +61,7 @@ namespace CatTree
                 }
                 else
                 {
+                    CreateNotification();
                     label_support.Text = "C'est Parti !";
                     pause_button.SetBackgroundImage(UIImage.GetSystemImage("pause"), UIControlState.Normal);
                     TimerInfo.is_paused = false;
@@ -81,13 +86,20 @@ namespace CatTree
             {
                 if (TimerInfo.is_paused == false)
                 {
+                    if (TimerInfo.got_killed == true)
+                    {
+                        TimerInfo.remaining = TimerInfo.remaining.Subtract(TimerInfo.return_date - TimerInfo.quit_date);
+                        TimerInfo.got_killed = false;
+                    }
                     label_support.Text = "C'est Parti !";
                     pause_button.SetBackgroundImage(UIImage.GetSystemImage("pause"), UIControlState.Normal);
-                    var total = TimerInfo.EndDate - TimerInfo.StartDate;
-                    var remaining = TimerInfo.EndDate - DateTime.Now;
+                    var total = TimerInfo.length;
+                    var remaining = TimerInfo.remaining;
                     var prog = (float)remaining.Divide(total);
-                    timer_progress.SetProgress(prog, false);
-                    label_percent.Text = Math.Truncate(100 * prog).ToString() + " %";
+                    var percent = 1 - prog;
+                    label_percent.Text = Math.Truncate(percent * 100).ToString() + " %";
+                    timer_progress.SetProgress(Convert.ToSingle(percent), true);
+                    timer_label.Text = remaining.Hours.ToString() + " h " + remaining.Minutes.ToString() + " min " + remaining.Seconds.ToString() + " s";
                     timer.Interval = 1000;
                     timer.Enabled = true;
                     timer.Elapsed += Timer_Elapsed;
@@ -97,11 +109,13 @@ namespace CatTree
                 {
                     label_support.Text = "Allez On y Retourne !";
                     pause_button.SetBackgroundImage(UIImage.GetSystemImage("play"), UIControlState.Normal);
-                    var total = TimerInfo.EndDate - TimerInfo.StartDate;
-                    var remaining = TimerInfo.EndDate - DateTime.Now;
+                    var total = TimerInfo.length;
+                    var remaining = TimerInfo.remaining;
                     var prog = (float)remaining.Divide(total);
-                    timer_progress.SetProgress(prog, false);
-                    label_percent.Text = Math.Truncate(100 * prog).ToString() + " %";
+                    var percent = 1 - prog;
+                    label_percent.Text = Math.Truncate(percent * 100).ToString() + " %";
+                    timer_progress.SetProgress(Convert.ToSingle(percent), true);
+                    timer_label.Text = remaining.Hours.ToString() + " h " + remaining.Minutes.ToString() + " min " + remaining.Seconds.ToString() + " s";
                     timer.Interval = 1000;
                     timer.Enabled = true;
                     timer.Elapsed += Timer_Elapsed;
@@ -113,13 +127,14 @@ namespace CatTree
         {
             if (TimerInfo.is_paused == false)
             {
-                DateTime myDate = DateTime.Now;
-                TimeSpan remaining = TimerInfo.EndDate.Subtract(myDate);
+                TimeSpan remaining = TimerInfo.remaining;
                 double percent = 1 - remaining.Divide(totalSpan);
                 InvokeOnMainThread(() => {
                     timer_label.Text = remaining.Hours.ToString() + " h " + remaining.Minutes.ToString() + " min " + remaining.Seconds.ToString() + " s";
                     label_percent.Text = Math.Truncate(percent * 100).ToString() + " %";
                     timer_progress.SetProgress(Convert.ToSingle(percent), true);
+                    TimerInfo.remaining = TimerInfo.remaining.Subtract(new TimeSpan(0, 0, 0, 0,1000));
+                    TimerInfo.quit_date = DateTime.Now;
                     TimerInfo.Save();
                     if (percent >= 1)
                     {
@@ -134,32 +149,11 @@ namespace CatTree
                     }
                 });
             }
-            if (TimerInfo.is_paused == true)
-            {
-                InvokeOnMainThread(() =>
-                {
-                    TimerInfo.EndDate = TimerInfo.EndDate.AddMilliseconds(timer.Interval);
-                    TimerInfo.Save();
-                });
-            }
-
         }
         public override void DidReceiveMemoryWarning()
         {
             base.DidReceiveMemoryWarning();
             // Release any cached data, images, etc that aren't in use.  
         }
-        /*
-        public override void ViewWillDisappear(bool animated)
-        {
-            base.ViewWillDisappear(animated);
-
-            //get the back button press
-            if (this.IsMovingFromParentViewController)
-            {
-                NavigationController.PopToRootViewController(true);
-            }
-        }
-        */
     }
 }
