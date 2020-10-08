@@ -24,6 +24,10 @@ namespace CatTree
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIButton pause_button { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UIButton stop_timer_button { get; set; }
 
         [Outlet]
@@ -48,6 +52,11 @@ namespace CatTree
             if (label_support != null) {
                 label_support.Dispose ();
                 label_support = null;
+            }
+
+            if (pause_button != null) {
+                pause_button.Dispose ();
+                pause_button = null;
             }
 
             if (stop_timer_button != null) {

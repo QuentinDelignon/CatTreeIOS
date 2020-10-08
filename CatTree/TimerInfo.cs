@@ -19,6 +19,7 @@ namespace CatTree
         public static DateTime EndDate = DateTime.Now;
         public static bool ongoing = false;
         public static DateTime StartDate = DateTime.Now;
+        public static bool is_paused = false;
         public static void Reset()
         {
             hour = 0;
@@ -28,6 +29,7 @@ namespace CatTree
             StartDate = DateTime.Now;
             is_completed = false;
             ongoing = false;
+            is_paused = false;
         }
         public static void Save()
         {
@@ -51,6 +53,7 @@ namespace CatTree
             StartDate = obj.StartDate;
             is_completed = obj.is_completed;
             ongoing = obj.ongoing;
+            is_paused = obj.is_paused;
         }
         public class Container
         {
@@ -61,6 +64,7 @@ namespace CatTree
             public  DateTime EndDate;
             public  bool ongoing;
             public  DateTime StartDate;
+            public bool is_paused;
             public Container Create()
             {
                 var cont = new Container();
@@ -71,6 +75,7 @@ namespace CatTree
                 cont.EndDate = TimerInfo.EndDate;
                 cont.ongoing = TimerInfo.ongoing;
                 cont.StartDate = TimerInfo.StartDate;
+                cont.is_paused = TimerInfo.is_paused;
                 return cont;
             }
         }

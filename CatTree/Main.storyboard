@@ -660,14 +660,18 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="8520" translatesAutoresizingMaskIntoConstraints="NO" fixedFrame="YES">
-                                <rect key="frame" x="144" y="471" width="114" height="75"/>
+                            <button contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" id="8520" translatesAutoresizingMaskIntoConstraints="NO" fixedFrame="YES" opaque="NO">
+                                <rect key="frame" x="132" y="472" width="61" height="58"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="40"/>
-                                <state key="normal" title="STOP"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="29"/>
                                 <connections>
                                     <segue id="8577" destination="2002" kind="show"/>
                                 </connections>
+                                <size key="titleShadowOffset" width="0" height="0"/>
+                                <state key="normal" title=" " backgroundImage="stop" catalog="system">
+                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="small" configurationType="unspecified"/>
+                                </state>
+                                <rect key="contentStretch" x="1" y="0.0" width="1" height="1"/>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="9987" translatesAutoresizingMaskIntoConstraints="NO" fixedFrame="YES" text="C'est Parti !">
                                 <rect key="frame" x="34" y="154" width="355" height="69"/>
@@ -676,6 +680,11 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="87103" translatesAutoresizingMaskIntoConstraints="NO" fixedFrame="YES">
+                                <rect key="frame" x="225" y="474" width="53" height="54"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" backgroundImage="pause" catalog="system"/>
+                            </button>
                         </subviews>
                     </view>
                     <connections>
@@ -685,6 +694,7 @@
                         <outlet property="timer_progress" destination="7164" id="name-outlet-7164"/>
                         <outlet property="stop_timer_button" destination="8520" id="name-outlet-8520"/>
                         <outlet property="label_support" destination="9987" id="name-outlet-9987"/>
+                        <outlet property="pause_button" destination="87103" id="name-outlet-87103"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3236" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -958,5 +968,7 @@
         <image name="house.fill" catalog="system"/>
         <image name="bag.fill" catalog="system"/>
         <image name="plus" catalog="system"/>
+        <image name="stop" catalog="system"/>
+        <image name="pause" catalog="system"/>
     </resources>
 </document>

@@ -47,6 +47,23 @@ namespace CatTree
                 }
                     TimerInfo.Save();                
             };
+            pause_button.TouchUpInside += (sender, e) => {
+                if (TimerInfo.is_paused == false)
+                {
+                    label_support.Text = "Allez On y Retourne !";
+                    pause_button.SetBackgroundImage(UIImage.GetSystemImage("play"), UIControlState.Normal);
+                    TimerInfo.is_paused = true;
+                    TimerInfo.Save();
+                }
+                else
+                {
+                    label_support.Text = "C'est Parti !";
+                    pause_button.SetBackgroundImage(UIImage.GetSystemImage("pause"), UIControlState.Normal);
+                    TimerInfo.is_paused = false;
+                    TimerInfo.Save();
+                }
+                
+            };
             if (TimerInfo.ongoing == false)
             {
                 CreateNotification();
@@ -62,42 +79,70 @@ namespace CatTree
             }
             else
             {
-                label_support.Text = "C'est Parti !";
-                var total = TimerInfo.EndDate - TimerInfo.StartDate;
-                var remaining = TimerInfo.EndDate - DateTime.Now;
-                var prog = (float) remaining.Divide(total);
-                timer_progress.SetProgress(prog, false);
-                label_percent.Text = Math.Truncate(100 * prog).ToString() + " %";
-                timer.Interval = 1000;
-                timer.Enabled = true;
-                timer.Elapsed += Timer_Elapsed;
-                timer.Start();
+                if (TimerInfo.is_paused == false)
+                {
+                    label_support.Text = "C'est Parti !";
+                    pause_button.SetBackgroundImage(UIImage.GetSystemImage("pause"), UIControlState.Normal);
+                    var total = TimerInfo.EndDate - TimerInfo.StartDate;
+                    var remaining = TimerInfo.EndDate - DateTime.Now;
+                    var prog = (float)remaining.Divide(total);
+                    timer_progress.SetProgress(prog, false);
+                    label_percent.Text = Math.Truncate(100 * prog).ToString() + " %";
+                    timer.Interval = 1000;
+                    timer.Enabled = true;
+                    timer.Elapsed += Timer_Elapsed;
+                    timer.Start();
+                }
+                else
+                {
+                    label_support.Text = "Allez On y Retourne !";
+                    pause_button.SetBackgroundImage(UIImage.GetSystemImage("play"), UIControlState.Normal);
+                    var total = TimerInfo.EndDate - TimerInfo.StartDate;
+                    var remaining = TimerInfo.EndDate - DateTime.Now;
+                    var prog = (float)remaining.Divide(total);
+                    timer_progress.SetProgress(prog, false);
+                    label_percent.Text = Math.Truncate(100 * prog).ToString() + " %";
+                    timer.Interval = 1000;
+                    timer.Enabled = true;
+                    timer.Elapsed += Timer_Elapsed;
+                }
             }
 
             }
         private void Timer_Elapsed(object sender, ElapsedEventArgs e)
         {
-            DateTime myDate = DateTime.Now;
-            TimeSpan remaining = TimerInfo.EndDate.Subtract(myDate);
-            double percent = 1 - remaining.Divide(totalSpan);
-            InvokeOnMainThread(() => {
-                timer_label.Text = remaining.Hours.ToString() + " h " + remaining.Minutes.ToString() + " min " + remaining.Seconds.ToString()+" s";
-                label_percent.Text = Math.Truncate(percent * 100).ToString()+" %";
-                timer_progress.SetProgress(Convert.ToSingle(percent), true);
-                TimerInfo.Save();
-                if (percent >=1)
-                {
-                    timer.Stop();
-                    label_support.Text = "Super !";
-                    TimerInfo.is_completed = true;
-                    TimerInfo.ongoing = false;
+            if (TimerInfo.is_paused == false)
+            {
+                DateTime myDate = DateTime.Now;
+                TimeSpan remaining = TimerInfo.EndDate.Subtract(myDate);
+                double percent = 1 - remaining.Divide(totalSpan);
+                InvokeOnMainThread(() => {
+                    timer_label.Text = remaining.Hours.ToString() + " h " + remaining.Minutes.ToString() + " min " + remaining.Seconds.ToString() + " s";
+                    label_percent.Text = Math.Truncate(percent * 100).ToString() + " %";
+                    timer_progress.SetProgress(Convert.ToSingle(percent), true);
                     TimerInfo.Save();
-                    UIStoryboard storyboard = UIStoryboard.FromName("Main", null);
-                    UIViewController homeViewController = storyboard.InstantiateViewController("home") as UIViewController;
-                    PresentViewController(homeViewController, true, null);
-                }
+                    if (percent >= 1)
+                    {
+                        timer.Stop();
+                        label_support.Text = "Super !";
+                        TimerInfo.is_completed = true;
+                        TimerInfo.ongoing = false;
+                        TimerInfo.Save();
+                        UIStoryboard storyboard = UIStoryboard.FromName("Main", null);
+                        UIViewController homeViewController = storyboard.InstantiateViewController("home") as UIViewController;
+                        PresentViewController(homeViewController, true, null);
+                    }
+                });
+            }
+            if (TimerInfo.is_paused == true)
+            {
+                InvokeOnMainThread(() =>
+                {
+                    TimerInfo.EndDate = TimerInfo.EndDate.AddMilliseconds(timer.Interval);
+                    TimerInfo.Save();
+                });
+            }
 
-            });
         }
         public override void DidReceiveMemoryWarning()
         {

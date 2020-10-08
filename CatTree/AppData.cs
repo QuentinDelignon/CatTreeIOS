@@ -412,7 +412,7 @@ namespace CatTree
                 {
                     if (SpanType == 0)
                     {
-                        if (WeekNumber == GetWeekNumberOfMonth(Sessions[i].Date))
+                        if (WeekNumber == GetWeekNumberOfMonth(Sessions[i].Date) & Sessions[i].Date.Month == CurrDate.Month & Sessions[i].Date.Year == CurrDate.Year)
                         {
                             selectedSessions.Add(Sessions[i]);
                         }
@@ -546,15 +546,9 @@ namespace CatTree
         }
         public static string GetString(double duration)
         {
-            var hours = Convert.ToSingle(Math.Round(duration, 2));
-            var min = hours - Math.Truncate(hours);
-            min = min * 100;
-            var hour = Math.Truncate(hours);
-            if (min >= 60)
-            {
-                hour += 1;
-                min = min - 60;
-            }
+            var min = duration - Math.Truncate(duration);
+            var hour = Math.Truncate(duration);
+            min = min * 60;
             var valueLabel = hour.ToString() + " h " + Math.Truncate(min).ToString() + " m";
             return valueLabel;
         }
