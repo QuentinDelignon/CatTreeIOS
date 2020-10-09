@@ -512,7 +512,6 @@ namespace CatTree
                 DateTime now = DateTime.Now;
                 int WeekNumber = GetWeekNumberOfMonth(now);
                 int MonthNumber = now.Month;
-                int YearNumber = now.Year;
                 List<TimeSpan> Spans = new List<TimeSpan>() { new TimeSpan(), new TimeSpan(), new TimeSpan()};
                 Spans[0] = now.AddDays(7) - now;
                 Spans[1] = now.AddMonths(1) - now;
@@ -522,20 +521,17 @@ namespace CatTree
                     var count = 0.0;
                     for (int j = 0; j < Sessions.Count(); j++)
                     {
-                        if (now - Sessions[j].Date < Spans[i] | i == 2)
+                        if ( i == 0 & WeekNumber == GetWeekNumberOfMonth(Sessions[j].Date) & Sessions[j].Date.Month == now.Month & now.Year == Sessions[j].Date.Year)
                         {
-                            if ( i == 0 & WeekNumber == GetWeekNumberOfMonth(Sessions[j].Date))
-                            {
-                                count += Sessions[j].Duration.TotalHours;
-                            }
-                            if ( i == 1 & MonthNumber == Sessions[j].Date.Month)
-                            {
-                                count += Sessions[j].Duration.TotalHours;
-                            }
-                            if ( i == 2)
-                            {
-                                count += Sessions[j].Duration.TotalHours;
-                            }
+                            count += Sessions[j].Duration.TotalHours;
+                        }
+                        if ( i == 1 & now.Month == Sessions[j].Date.Month & now.Year == Sessions[j].Date.Year)
+                        {
+                            count += Sessions[j].Duration.TotalHours;
+                        }
+                        if ( i == 2)
+                        {
+                            count += Sessions[j].Duration.TotalHours;
                         }
                     }
                     output.Add(Convert.ToInt32(Math.Truncate(count)));
