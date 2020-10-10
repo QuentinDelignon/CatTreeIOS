@@ -36,8 +36,8 @@ namespace CatTree
                 }
                 else
                 {
-                    TimerInfo.got_killed = true;
-                    TimerInfo.return_date = DateTime.Now;
+                    //TimerInfo.got_killed = true;
+                    //TimerInfo.return_date = DateTime.Now;
                     UIStoryboard storyboard = UIStoryboard.FromName("Main", null);
                     UIViewController homeViewController = storyboard.InstantiateViewController("timer") as UIViewController;
                     PresentViewController(homeViewController, true, null);

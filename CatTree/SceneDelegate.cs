@@ -1,4 +1,5 @@
 ﻿using System;
+using CatTree;
 using Foundation;
 using UIKit;
 
@@ -45,6 +46,13 @@ namespace NewSingleViewTemplate {
 		{
 			// Called as the scene transitions from the background to the foreground.
 			// Use this method to undo the changes made on entering the background.
+			try { TimerInfo.Load(); } catch { }
+			if (TimerInfo.ongoing && TimerInfo.is_paused == false)
+			{
+				TimerInfo.got_killed = true;
+				TimerInfo.return_date = DateTime.Now;
+				TimerInfo.Save();
+			}
 		}
 
 		[Export ("sceneDidEnterBackground:")]
@@ -53,6 +61,7 @@ namespace NewSingleViewTemplate {
 			// Called as the scene transitions from the foreground to the background.
 			// Use this method to save data, release shared resources, and store enough scene-specific state information
 			// to restore the scene back to its current state.
+			TimerInfo.Save();
 		}
 	}
 }

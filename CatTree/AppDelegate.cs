@@ -1,4 +1,5 @@
 ﻿using Foundation;
+using System;
 using UIKit;
 using UserNotifications;
 
@@ -48,10 +49,17 @@ namespace CatTree
         {
             TimerInfo.Save();
         }
+
         [Export("applicationWillEnterForeground:")]
         public virtual void WillEnterForeground(UIApplication application)
         {
             try { TimerInfo.Load(); } catch { }
+            if (TimerInfo.ongoing)
+            {
+                TimerInfo.got_killed = true;
+                TimerInfo.return_date = DateTime.Now;
+                TimerInfo.Save();
+            }
         }
     }
 }

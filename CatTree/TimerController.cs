@@ -48,7 +48,8 @@ namespace CatTree
                 {
                     TimerInfo.Reset();
                 }
-                    TimerInfo.Save();                
+                    TimerInfo.Save();
+                timer.Stop();
             };
             pause_button.TouchUpInside += (sender, e) => {
                 if (TimerInfo.is_paused == false)
@@ -86,11 +87,6 @@ namespace CatTree
             {
                 if (TimerInfo.is_paused == false)
                 {
-                    if (TimerInfo.got_killed == true)
-                    {
-                        TimerInfo.remaining = TimerInfo.remaining.Subtract(TimerInfo.return_date - TimerInfo.quit_date);
-                        TimerInfo.got_killed = false;
-                    }
                     label_support.Text = "C'est Parti !";
                     pause_button.SetBackgroundImage(UIImage.GetSystemImage("pause"), UIControlState.Normal);
                     var total = TimerInfo.length;
@@ -127,10 +123,14 @@ namespace CatTree
         {
             if (TimerInfo.is_paused == false)
             {
-                TimeSpan remaining = TimerInfo.remaining;
-                double percent = 1 - remaining.Divide(totalSpan);
+                double percent = 1 - TimerInfo.remaining.Divide(totalSpan);
                 InvokeOnMainThread(() => {
-                    timer_label.Text = remaining.Hours.ToString() + " h " + remaining.Minutes.ToString() + " min " + remaining.Seconds.ToString() + " s";
+                    if (TimerInfo.got_killed == true)
+                    {
+                        TimerInfo.remaining = TimerInfo.remaining.Subtract(TimerInfo.return_date - TimerInfo.quit_date);
+                        TimerInfo.got_killed = false;
+                    }
+                    timer_label.Text = TimerInfo.remaining.Hours.ToString() + " h " + TimerInfo.remaining.Minutes.ToString() + " min " + TimerInfo.remaining.Seconds.ToString() + " s";
                     label_percent.Text = Math.Truncate(percent * 100).ToString() + " %";
                     timer_progress.SetProgress(Convert.ToSingle(percent), true);
                     TimerInfo.remaining = TimerInfo.remaining.Subtract(new TimeSpan(0, 0, 0, 0,1000));
